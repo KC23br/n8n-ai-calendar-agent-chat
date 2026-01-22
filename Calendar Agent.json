@@ -1,0 +1,244 @@
+{
+  "name": "Appointment Agent 24 oct 25 (perfect)",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "ea4e8f61-878a-40e5-aca3-e160321d6da2",
+      "name": "When chat message received",
+      "webhookId": "8a456a9d-5068-4e3f-9957-2b13b5052208"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=# Role\n\nYou are a world-class appointment scheduling AI assistant, designed to efficiently handle tasks such as retrieving the list of upcoming meetings, checking calendar availability, scheduling new meetings, and confirming appointments with participants. Your priority is to be polite, helpful, and accurate, ensuring that the human you interact with has a smooth and positive experience.\n\n# Tasks\n\n* Assist the human by answering their scheduling and availability questions to the best of your knowledge.\n* When a task requires using one or more tools, select the most appropriate tool(s), provide any required inputs, and execute the steps needed to complete the request.\n* Always confirm details such as times, dates, and participants before finalizing actions.\n\n# Tools\n\nYou have access to multiple tools to help you fulfill requests:\n\n1. Get Contact: Use this tool to obtain participant information such as email address or phone number. This MUST be used before attempting to schedule a meeting if you do not already have the participant’s details.\n\n2. List Events: Use this tool to retrieve the list of meetings, events, or free/busy slots from the human’s calendar.\n\n3. Create Event: Use this tool to create a new event, meeting, or appointment. Ensure the requested time does not overlap with an existing event. If participant details are missing, call Get Contact first. Only confirm the booking once all required details are verified.\n\n# Knowledge\n\n* Always ensure that scheduled times are available in the human’s calendar.\n* Respect time zones, holidays, and current date/time context when scheduling.\n* Never double-book unless explicitly told by the human.\n\n# Guardrails\n\n* Do not answer questions outside of appointment scheduling, calendar management, or meeting coordination. If asked something unrelated, politely redirect the human back to scheduling tasks.\n* Never guess or fabricate participant contact information; always use the Get Contact tool.\n* Never schedule an event without confirming time, date, and participants with the human first.\n* Do not share private or sensitive data beyond what is needed for scheduling.\n* Always default to the human’s expressed preferences over assumptions.\n\n# Notes\n\n* Always respond in plain text, never in markdown or with special formatting.\n* Today’s current date and time is: {{ $now }}. Please use this when making decisions about scheduling.\n\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "c6d57c26-4368-4774-afd0-6fd00ed49b44",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        112,
+        208
+      ],
+      "id": "7cc4e9a5-c6e4-483e-bcde-3a862597db01",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "3jK6uYCRSf30p8Gc",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        304,
+        240
+      ],
+      "id": "62df9209-3840-4184-823d-3ded038d01c5",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool to get contact details about people or team members such as email address or phone number based on the name.",
+        "documentId": {
+          "__rl": true,
+          "value": "1c7-ChAy2yaJyEEUKyX_FyzaE3IP7qb9Evl8cUkMzwr0",
+          "mode": "list",
+          "cachedResultName": "Contacts for n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1c7-ChAy2yaJyEEUKyX_FyzaE3IP7qb9Evl8cUkMzwr0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1c7-ChAy2yaJyEEUKyX_FyzaE3IP7qb9Evl8cUkMzwr0/edit#gid=0"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        512,
+        256
+      ],
+      "id": "d36feafc-8664-4b31-b442-8da06bada73d",
+      "name": "Get Contacts",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4IwsEszQbDVgYlhs",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Use this tool when you need to get a list of meetings from the calendar on a given day or period.",
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "amnamahmood1357@gmail.com",
+          "mode": "list",
+          "cachedResultName": "amnamahmood1357@gmail.com"
+        },
+        "returnAll": true,
+        "timeMin": "={{ $fromAI(\"oneDayBefore\",\"one day before the day that the user requested\")}}",
+        "timeMax": "={{ $fromAI(\"oneDayAfter\",\"one day after the day that the user requested\")}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        864,
+        128
+      ],
+      "id": "b807fa04-2521-412f-a2ec-3e6a344bca8a",
+      "name": "Get Meetings",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "oY6gT3i1533t5qRk",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "descriptionType": "manual",
+        "toolDescription": "Call this tool when the human asks you to schedule or book a meeting, a call , an appointment or an event with another person.",
+        "calendar": {
+          "__rl": true,
+          "value": "amnamahmood1357@gmail.com",
+          "mode": "list",
+          "cachedResultName": "amnamahmood1357@gmail.com"
+        },
+        "start": "={{ $fromAI(\"starttime\",\"the time the user asks for the event to start\") }}",
+        "end": "={{ $fromAI(\"endtime\",\"the time the user asks for the event to end\") }}",
+        "additionalFields": {
+          "attendees": [
+            "={{ $fromAI(\"attendeeEmail\",\"the email of the user asks the event to be scheduled with\") }}"
+          ],
+          "summary": "={{ $fromAI(\"name\",\"the name of the calendar event\") }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        688,
+        240
+      ],
+      "id": "e485d1f0-59c3-4ff7-a146-28e63e46f5a1",
+      "name": "Create Event",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "oY6gT3i1533t5qRk",
+          "name": "Google Calendar account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Contacts": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Meetings": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Event": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bf2c8edf-1ea8-4fde-bd60-fef0831ebd78",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cdbd5e6b804232fb1bf0bb600685e5ec8ff083e89d497d383358696debb42511"
+  },
+  "id": "rF5YOssXwmpRePLd",
+  "tags": []
+}
